@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const App = () => {
   const [data, setData] = useState({});
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     e.preventDefault();
@@ -12,9 +14,16 @@ const App = () => {
     setData(loginData)
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     //Peticion a la DB
+    try{
+      await axios.post("http://localhost:4000/users/singin", data)
+      alert("Inicio de Sesión es Correcto!!")
+    }catch(error) {
+      alert("Lo siento, el Inicio es Incorrecto :( !!", error)
+    }
     console.log(data)
+    navigate("/home")
   }
 
   return (
